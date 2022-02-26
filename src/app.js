@@ -1,14 +1,12 @@
 const express = require("express");
-// const { path } = require("express/lib/application");
 const app = express();
 const port = process.env.PORT || 3000;
 require("./db/connection");
 const path = require("path");
 const hbs = require("hbs");
-const exp = require("constants");
 const Register = require("./models/registers");
-const { isWindows } = require("nodemon/lib/utils");
-const { json } = require("express/lib/response");
+const bcrypt=require("bcrypt");
+
 
 const static_path = path.join(__dirname, "../public");
 const template_path = path.join(__dirname, "../templates/views");
@@ -39,8 +37,6 @@ app.get("/login", (req, res) => {
 // create a new user in the database
 app.post("/register", async (req, res) => {
   try {
-    // const password = req.body.password;
-    // const cpassword = req.body.confirmPassword;
     const { name, email, password, confirmPassword } = req.body;
     Register.findOne({ email: email }, async (err, user) => {
       if (user) {
@@ -54,14 +50,15 @@ app.post("/register", async (req, res) => {
             password,
             confirmPassword,
           });
+          //here middleware is executed which is on database schema i.e models hashing is done after it is saved 
           const registered = await registerdUser.save();
           console.log(registered, "registered");
           res.status(201).render("login");
         } else {
-          const message=2;//for password mismatch
+          const message2=2;//for password mismatch
           res
             .status(500)
-            .render("register",{message});
+            .render("register",{message2});
         }
       }
     });
@@ -75,13 +72,22 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   // console.log(`email is ${email} and password is ${password}`);
   const validatedUser = await Register.findOne({ email: email });
-  if (password === validatedUser.password) {
-    res.status(201).render("index");
-  } else {
-    // res.status(400).send("password is not correct");
-    const errorValue=1;//for passwrd not correct
-    res.render("login",{errorValue});
+  if(validatedUser){
+    const isPasswordMatch= await bcrypt.compare(password,validatedUser.password);
+    if (isPasswordMatch) {
+      res.status(201).render("index");
+    } else {
+      // res.status(400).send("password is not correct");
+      const errorValue=1;//for passwrd not correct
+      res.render("login",{errorValue});
+    }
+
+  }else{
+    const errorValue=2;//for passwrd not correct
+      res.render("login",{errorValue});
+
   }
+  
 });
 
 //routes end

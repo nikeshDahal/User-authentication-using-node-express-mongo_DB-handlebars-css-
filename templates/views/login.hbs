@@ -23,8 +23,8 @@
         <div class="form-container sign-in-container">
             <form action="/login" method="POST">
                 <h1>Sign in</h1>
-                <div id="errorMsg"  style="display: none; color:red">
-                    <p>Invalid Login Credintals!</p>
+                <div id="errorMsg" >
+                    <p id="topErrorMessage"> Welcome </p>
                 </div>
                 <input type="email" placeholder="Email" name="email" />
                 <input type="password" placeholder="Password" name="password"/>
@@ -54,10 +54,16 @@
 
 
 <script>
-var errorValue = {{{errorValue}}};
-if(errorValue===1){
-    var actn=document.getElementById('errorMsg').style.display='block';
-}else{
-    console.log("Not working");
-}
+    var errorValue = {{{errorValue}}};
+    if(errorValue===1){
+
+        var actn=document.getElementById('topErrorMessage').innerHTML="invalid login credintials";
+        document.getElementById("topErrorMessage").style.color = "red";
+
+    }else if(errorValue===2){
+
+        var actn=document.getElementById('topErrorMessage').innerHTML="User is not registered";
+        document.getElementById("topErrorMessage").style.color = "red";
+
+    }
 </script>
