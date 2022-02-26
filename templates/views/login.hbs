@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>video-call</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/fbf6796863.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    {{!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"/> --}}
+
+</head>
+
+<body>
+
+    <div class="container" id="container">
+
+
+        <div class="form-container sign-in-container">
+            <form action="/login" method="POST">
+                <h1>Sign in</h1>
+                <div id="errorMsg"  style="display: none; color:red">
+                    <p>Invalid Login Credintals!</p>
+                </div>
+                <input type="email" placeholder="Email" name="email" />
+                <input type="password" placeholder="Password" name="password"/>
+                <input type="submit" value="Sign In" class="signup-button" /> 
+                {{!-- <button>Sign In</button> --}}
+            </form>
+        </div>
+
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Don't have account ? please signup</p>
+                    <button onclick="window.location.href='http://localhost:3000/register'" class="ghost" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="css/main.js"></script>
+
+</body>
+
+</html>
+
+
+
+<script>
+var errorValue = {{{errorValue}}};
+if(errorValue===1){
+    var actn=document.getElementById('errorMsg').style.display='block';
+}else{
+    console.log("Not working");
+}
+</script>

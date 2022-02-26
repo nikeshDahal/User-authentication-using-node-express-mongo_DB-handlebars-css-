@@ -1,0 +1,93 @@
+<html lang="en">
+
+  <head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>video-call</title>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/fbf6796863.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+  </head>
+
+  <body>
+
+    <div class="container" id="container">
+
+      <div class="form-container sign-in-container">
+        <form action="/register" method="POST">
+          <h1>Create Account</h1>
+          <br />
+          <div id="invalidMessage" >
+            <span id="TopMessageInformation"class="TopMessage">use your email for registration</span>
+        </div>
+
+          
+          <br />
+          <input type="text" placeholder="Name" name="name" value="" />
+          <input type="email" placeholder="Email" name="email" value="" />
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            value=""
+          />
+          <input
+            type="password"
+            placeholder="confirm Password"
+            name="confirmPassword"
+            value=""
+          />
+          {{! <button>Sign Up</button> }}
+          <input type="submit" value="Sign Up" class="signup-button" />
+        </form>
+      </div>
+
+      <div class="overlay-container">
+        <div class="overlay">
+          <div class="overlay-panel overlay-right">
+            <h1>Welcome !!</h1>
+            <p>
+              Already have an account ?please return to signIn.
+            </p>
+            <button
+              onclick="window.location.href='http://localhost:3000/login'"
+              class="ghost"
+              id="signIn"
+            >Sign In</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="css/main.js"></script>
+    <script>
+      var message ={{{message}}};
+      console.log(message,"message");
+      if(message===1){ 
+          var actn=document.getElementById('TopMessageInformation').innerHTML="Email already registered";
+          document.getElementById("TopMessageInformation").style.color = "red"
+      }else if(message===2){
+          var actn=document.getElementById('TopMessageInformation').innerHTML="Password Mismatch";
+          document.getElementById("TopMessageInformation").style.color = "red";
+      }
+    </script>
+
+  </body>
+
+</html>
