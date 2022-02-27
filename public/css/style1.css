@@ -60,7 +60,7 @@ a {
     text-align: center;
 }
 
-.social-container {
+/* .social-container {
     margin: 20px 0;
 }
 
@@ -73,21 +73,22 @@ a {
     margin: 0 5px;
     height: 40px;
     width: 40px;
-}
+} */
 
 .form-container input {
-    background: #eee;
+    background: #b5e2ff45;
     border: none;
     padding: 12px 15px;
     margin: 8px 0px;
     width: 100%;
+    border-radius: 10px;
 }
 
 button {
     border-radius: 20px;
-    border: 1px solid #ff4b2b;
-    background: #ff4b2b;
-    color: #fff;
+    border: 2px solid #25a9f5;
+    /* background: #ff4b2b; */
+    color: #294163;
     font-size: 12px;
     font-weight: bold;
     padding: 12px 45px;
@@ -106,6 +107,9 @@ button {
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: tranform 80ms ease-in;
+}
+button:hover {
+        background: #25a9f5;
 }
 .signup-button:active{
     transform: scale(0.95);
@@ -165,8 +169,8 @@ button.ghost {
 }
 
 .overlay {
-    background: #ff416c;
-    background: linear-gradient(to right, #ff4b2b, #ff416c) no-repeat 0 0 / cover;
+    background: #25a9f5;
+    background: linear-gradient(to right, #89cdf5, #038de9) no-repeat 0 0 / cover;
     color: #fff;
     position: relative;
     left: -100%;

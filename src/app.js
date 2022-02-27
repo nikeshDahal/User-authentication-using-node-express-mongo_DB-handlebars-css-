@@ -50,9 +50,14 @@ app.post("/register", async (req, res) => {
             password,
             confirmPassword,
           });
-          //here middleware is executed which is on database schema i.e models hashing is done after it is saved 
+          //here middleware is executed which is on database schema i.e models  and jwt , hashing is done after it is saved 
+          //for jwt token
+          // console.log("sucessful part before saved to database"+registerdUser);
+          const tokensGenerated= await registerdUser.generateToken();
+          console.log("token generated in registration"+tokensGenerated);
+          //jwt token ended
           const registered = await registerdUser.save();
-          console.log(registered, "registered");
+          console.log(registered, "registered data in database after saving to database");
           res.status(201).render("login");
         } else {
           const message2=2;//for password mismatch
@@ -67,14 +72,21 @@ app.post("/register", async (req, res) => {
   }
 });
 
-//email validation in the database
+// email validation in the database
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   // console.log(`email is ${email} and password is ${password}`);
   const validatedUser = await Register.findOne({ email: email });
+
   if(validatedUser){
+
     const isPasswordMatch= await bcrypt.compare(password,validatedUser.password);
+
+ 
+
     if (isPasswordMatch) {
+      const tokensGenerated= await validatedUser.generateToken();
+      console.log("token generated in  login",tokensGenerated);
       res.status(201).render("index");
     } else {
       // res.status(400).send("password is not correct");
@@ -91,5 +103,13 @@ app.post("/login", async (req, res) => {
 });
 
 //routes end
+// const jwt=require("jsonwebtoken");
+// const createTokens=async()=>{
+//   const Tokens=await jwt.sign({_id:"621a23ebe3c1f1e0f46ccff9"},"secretKeyForTokensToCheckAuthentication",{expiresIn:"2 seconds"})
+//   console.log("created tokens",Tokens);
 
+//   const uservar=await jwt.verify(Tokens,"secretKeyForTokensToCheckAuthentication")
+//   console.log(uservar);
+// }
+// createTokens();
 app.listen(port, () => console.log(`server is running in port ${port}`));
