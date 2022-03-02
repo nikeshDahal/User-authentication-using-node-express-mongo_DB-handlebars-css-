@@ -1,3 +1,4 @@
+require('dotenv').config()//always should be in first line
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,10 +23,18 @@ app.set("view engine", "hbs");
 app.set("views", template_path);
 hbs.registerPartials(partial_path);
 
+console.log("key is",process.env.SECRET_KEY);
 // routes
 app.get("/", (req, res) => {
   res.render("login");
 });
+
+// app.get("/index", (req, res) => {
+//   //cookies
+//   console.log(req.cookies.jwt);
+//   //
+//   res.render("index");
+// });
 
 app.get("/register", (req, res) => {
   res.render("register");
@@ -51,11 +60,23 @@ app.post("/register", async (req, res) => {
             confirmPassword,
           });
           //here middleware is executed which is on database schema i.e models  and jwt , hashing is done after it is saved 
-          //for jwt token
+          //for jwt token 
+
           // console.log("sucessful part before saved to database"+registerdUser);
           const tokensGenerated= await registerdUser.generateToken();
           console.log("token generated in registration"+tokensGenerated);
+
           //jwt token ended
+
+          //to extract datas from db and save  in to cookie,
+          // The res.cookie() function is used to set the cookie name to value.
+          // The value parameter may be a string or object converted to JSON.
+
+          res.cookie("jwt",tokensGenerated,{
+            expires:new Date(Date.now()+300000)
+          })
+
+          //cookie portion end
           const registered = await registerdUser.save();
           console.log(registered, "registered data in database after saving to database");
           res.status(201).render("login");
@@ -86,6 +107,13 @@ app.post("/login", async (req, res) => {
 
     if (isPasswordMatch) {
       const tokensGenerated= await validatedUser.generateToken();
+
+      res.cookie("jwt",tokensGenerated,{
+        expires:new Date(Date.now()+300000)
+      })
+
+      
+
       console.log("token generated in  login",tokensGenerated);
       res.status(201).render("index");
     } else {

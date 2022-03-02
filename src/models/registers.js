@@ -35,7 +35,7 @@ const userSchemas=mongoose.Schema({
 //generating tokens
 userSchemas.methods.generateToken=async function(){
     try {
-        const tokensGenerated=await jwt.sign({_id:this._id.toString()},"secretKeyneededtogeneratetokensandthisshouldbe32bits");
+        const tokensGenerated=await jwt.sign({_id:this._id.toString()},process.env.SECRET_KEY);
         this.tokens=this.tokens.concat({token:tokensGenerated});
          await this.save();
         return tokensGenerated;
